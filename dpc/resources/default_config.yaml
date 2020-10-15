@@ -99,13 +99,16 @@ bicubic_gt_downsampling: false
 checkpoint_dir: "."  # Directory path for saving trained models and other data.
 
 # Execute
-gpu: 0  # GPU id
-gpu_allow_growth: false  # Don't allocate all GPU memory.
-per_process_gpu_memory_fraction: 1.0  # Fraction of GPU memory to allocate
+gpu: "1"  # GPU id
+#gpu_allow_growth: false  # Don't allocate all GPU memory.
+gpu_allow_growth: true  # Don't allocate all GPU memory.
+#per_process_gpu_memory_fraction: 1.0  # Fraction of GPU memory to allocate
+per_process_gpu_memory_fraction: 0.5  # Fraction of GPU memory to allocate
 
 # Optimization
 step_size: 4  # Number of views per object in the batch.
-batch_size: 8  # Batch size while training.
+#batch_size: 8  # Batch size while training.
+batch_size: 32  # Batch size while training.
 shuffle_batch: false  # Shuffle training samples.
 shuffle_dataset: false  # Shuffle training samples.
 proj_weight: 1.0  # Weighting factor for projection loss.

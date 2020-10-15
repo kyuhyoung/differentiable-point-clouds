@@ -18,6 +18,7 @@ from nets.net_factory import get_network
 
 
 slim = tf.contrib.slim
+#slim = tf.compat.v1.contrib.slim
 
 
 def tf_repeat_0(input, num):
@@ -188,8 +189,11 @@ class ModelPointCloud(ModelBase):  # pylint:disable=invalid-name
             outputs['z_latent'] = enc_outputs['z_latent']
 
             # unsupervised case, case where convnet runs on all views, need to extract the first
+            print('cfg.batch_size :', cfg.batch_size);  
+            print('ids.shape.as_list()[0] b4 :', ids.shape.as_list()[0]); # exit()
             if ids.shape.as_list()[0] != cfg.batch_size:
                 ids = pool_single_view(cfg, ids, 0)
+            print('ids.shape.as_list()[0] after :', ids.shape.as_list()[0]);  #exit()
             outputs['ids_1'] = ids
 
         # Second, build the decoder and projector
@@ -347,6 +351,7 @@ class ModelPointCloud(ModelBase):  # pylint:disable=invalid-name
         indices = min_loss
         indices = tf.expand_dims(indices, axis=-1)
         batch_size = teachers.shape[0]
+        #print('batch_size :', batch_size);  exit()
         batch_indices = tf.range(0, batch_size, 1, dtype=tf.int64)
         batch_indices = tf.expand_dims(batch_indices, -1)
         indices = tf.concat([batch_indices, indices], axis=1)

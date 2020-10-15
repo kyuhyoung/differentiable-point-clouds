@@ -97,6 +97,16 @@ def train():
 
     session_config = tf.ConfigProto(
         log_device_placement=False)
+        
+    print('session_config.gpu_options.visible_device_list b4 : ', session_config.gpu_options.visible_device_list)
+    print('tyep(cfg.gpu) : ', type(cfg.gpu))
+    print('cfg.gpu : ', cfg.gpu)
+    print('cfg.gpu_allow_growth : ', cfg.gpu_allow_growth)
+    print('cfg.per_process_gpu_memory_fraction : ', cfg.per_process_gpu_memory_fraction)
+    #session_config.gpu_options.visible_device_list = cfg.gpu
+    session_config.gpu_options.visible_device_list = "0,1"
+    print('session_config.gpu_options.visible_device_list after : ', session_config.gpu_options.visible_device_list)
+    #exit()
     session_config.gpu_options.allow_growth = cfg.gpu_allow_growth
     session_config.gpu_options.per_process_gpu_memory_fraction = cfg.per_process_gpu_memory_fraction
 

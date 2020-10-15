@@ -43,6 +43,7 @@ def run_eval():
     exp_dir = cfg.checkpoint_dir
     num_views = cfg.num_views
     eval_unsup = cfg.eval_unsupervised_shape
+    #print('eval_unsup :', eval_unsup);  exit()
 
     gt_dir = os.path.join(cfg.gt_pc_dir, cfg.synth_set)
 

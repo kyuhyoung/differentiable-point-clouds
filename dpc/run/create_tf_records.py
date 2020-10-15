@@ -18,9 +18,11 @@ from util.data import tf_record_options
 
 import tensorflow as tf
 
-from tensorflow import app
+#from tensorflow import app
+from tensorflow.compat.v1 import app
 
-flags = tf.app.flags
+#flags = tf.app.flags
+flags = tf.compat.v1.app.flags
 
 flags.DEFINE_string('split_dir',
                     '',
@@ -98,7 +100,8 @@ def create_record(synth_set, split_name, models):
     train_filename = "{}/{}_{}.tfrecords".format(FLAGS.out_dir, synth_set, split_name)
     # open the TFRecords file
     options = tf_record_options(FLAGS)
-    writer = tf.python_io.TFRecordWriter(train_filename, options=options)
+    writer = tf.compat.v1.python_io.TFRecordWriter(train_filename, options=options)
+    #writer = tf.python_io.TFRecordWriter(train_filename, options=options)
 
     render_dir = os.path.join(FLAGS.inp_dir_renders, synth_set)
     voxel_dir = os.path.join(FLAGS.inp_dir_voxels, synth_set)

@@ -17,12 +17,17 @@ def _merge_a_into_b(a, b, type_conversion=False):
             raise KeyError('{} is not a valid config key'.format(k))
 
         param_type = type(b[k])
+        #print('a[k] :', a[k]); # exit()
+        #print('b[k] :', b[k]); # exit()
+        #print('param_type :', param_type);  #exit()
         if type_conversion:
             # still raise error if we supplied bool to a non-bool parameter:
             if type(v) == bool and param_type != bool:
                 raise TypeError(
                     f"The type of the parameter \"{k}\" is \"{param_type.__name__}\", but a value {v} is supplied.")
+            #print('v b4 :', v);
             v = param_type(v)
+            #print('v after :', v);
         else:
             # the parameter types must match those in the default config file
             if type(v) != param_type:
@@ -31,6 +36,7 @@ def _merge_a_into_b(a, b, type_conversion=False):
         # recursively merge dicts
         if type(v) is edict:
             try:
+                #print("AAAA")
                 _merge_a_into_b(a[k], b[k])
             except:
                 print('Error under config key: {}'.format(k))
@@ -50,7 +56,7 @@ def config_from_file(filename):
 def parse_cmd_args(argv):
     args = {}
     for arg in argv:
-        assert(arg[:2] == "--")
+        assert("--" == arg[:2])
         arg = arg[2:]
         idx = arg.find("=")
         arg_name = arg[:idx]
@@ -114,6 +120,7 @@ def merge_configs_recursive(configs):
 
     config = config_from_file(DEFAULT_CONFIG)
     for cfg in reversed(configs):
+        #print("BBBB")
         config = _merge_a_into_b(cfg, config)
 
     return config
@@ -144,9 +151,11 @@ def setup_config_with_cmd_args():
         # try load default config file in the directory
         configs.append(config_from_file(CONFIG_DEFAULT_NAME))
     config = merge_configs_recursive(configs)
-
+    #print('config :', config);  exit()
     cfg = typify_args_bool_only(args)
+    #print("CCCC")
     config = _merge_a_into_b(cfg, config, type_conversion=True)
+    #exit()
     print_config(config)
     return config
 
